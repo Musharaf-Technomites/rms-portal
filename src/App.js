@@ -1,8 +1,13 @@
 import React from 'react'
-
+import MainRoutes from './Routes/MainRoutes'
+import SideBar from './Components/SideBar'
 const App = () => {
   return (
-    <div>App</div>
+    <SideBar >
+      <MainRoutes />
+
+    </SideBar>
+
   )
 }
 
