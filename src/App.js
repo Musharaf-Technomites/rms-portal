@@ -1,14 +1,9 @@
-import React from 'react'
-import MainRoutes from './Routes/MainRoutes'
-import SideBar from './Components/SideBar'
-const App = () => {
+import SideBar from "./Components/SideBar"
+
+export default function App() {
   return (
-    <SideBar >
-      <MainRoutes />
-
-    </SideBar>
-
+    <div className="w-full h-screen bg-cover  bg-back flex items-center">
+      <SideBar />
+    </div>
   )
 }
-
-export default App
