@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+    @font-face {
+        font-family: Popins;
+        src: url("./Assets/Fonts/Poppins-Medium.ttf");
+    }
     * {
         padding: 0;
         left: 0;
@@ -10,5 +14,8 @@
     }
     .sidebar-container{
         @apply bg-glass h-[96%] w-[20rem] rounded-3xl ml-6 p-4 border transition-all duration-700 border-solid border-glass relative
+    }
+    .sidebar{
+        @apply flex items-center mt-2 p-4 rounded-lg  hover:bg-white transition-all duration-300 cursor-pointer last:absolute left-4 bottom-4
     }
 }

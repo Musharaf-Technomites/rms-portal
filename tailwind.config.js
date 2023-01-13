@@ -7,7 +7,8 @@ module.exports = {
     extend: {
       colors: {
         glass: "#ffffff9c",
-        brown: "rgba(30,30,17)"
+        brown: "rgba(30,30,17)",
+        fontColor:"#bc330d"
       },
       backgroundImage:{
         back:"url(./Assets/bgResImage.jpg)"
