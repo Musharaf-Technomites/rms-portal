@@ -5,7 +5,7 @@ import SideBarData from "../Components/SideBarData"
 const SideBar = () => {
     const [toggle, setToggle] = useState(false)
     return (
-        <div className={`${toggle ? "w-[5.8rem]" : ""} sidebar-container`}>
+        <div className={`${toggle ? ":w-[5.8rem]" : ""} sidebar-container`}>
             <UserProfile toggle={toggle} />
             <SideBarData toggle={toggle} />
             <div

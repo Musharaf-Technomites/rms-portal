@@ -6,7 +6,7 @@ const UserProfile = ({ toggle }) => {
       <div className={"min-w-[3.5rem] h-[3.5rem]"}>
         <img
           className={"w-full h-full rounded-full object-cover"}
-          src={require("../Assets/user.jpeg")}
+          src={require("../Assets/logo.jpg")}
         />
       </div>
       <div className={`${toggle?"opacity-0 ":"trabsition-all duration-200 delay-300"}`}>

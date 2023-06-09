@@ -8,12 +8,22 @@ module.exports = {
       colors: {
         glass: "#ffffff9c",
         brown: "rgba(30,30,17)",
-        fontColor:"#bc330d",
+        fontColor:"#104871",
+        primary:"red",
         opacityBgColor:"#00000099"
       },
       backgroundImage:{
-        back:"url(./Assets/bgResImage.jpg)"
-      }
+        back:"url(./Assets/bgResImage.jpg)",
+        logo:"url(./Assets/logo.jpg)"
+
+      },
+      screens:{
+        sm: "640px",
+        md: "668px",
+        lg: "1024px",
+        xl: "1280px",
+        "2x1": "1536px",
+      } 
 
     },
   },
