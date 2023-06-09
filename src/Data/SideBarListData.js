@@ -6,25 +6,26 @@ export const SideBarListData = [
     {
         id: 1,
         Name: "Home",
-        Icon: <BiIcon.BiHomeAlt className={"h-6 w-6" } />,
+        Icon: <BiIcon.BiHomeAlt className={"h-6 w-6"} />,
 
 
     },
     {
-        id: 1,
-        Name: "Menu",
+        id: 2,
+        Name: "Students",
         Icon: <BsIcon.BsMenuButton className="h-5 w-5" />,
 
 
     },
     {
-        id: 1,
-        Name: "Orders",
+        id: 3,
+        Name: "Students 2",
         Icon: <BsIcon.BsCardList className="h-5 w-5" />,
     },
 
+
     {
-        id: 1,
+        id: 4,
         Name: "Logout",
         Icon: <TbIcon.TbLogout className="h-6 w-6" />,
     },

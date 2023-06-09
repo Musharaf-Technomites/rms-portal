@@ -10,8 +10,8 @@ const UserProfile = ({ toggle }) => {
         />
       </div>
       <div className={`${toggle?"opacity-0 ":"trabsition-all duration-200 delay-300"}`}>
-        <h3 className={"text-lg font-Popins"}>Musharaf Ahmed</h3>
-        <span className={"text-[0.75rem] opacity-60"}>musharaf@gmail.com</span>
+        <h3 className={"text-lg font-Popins"}>Afham Saya</h3>
+        <span className={"text-[0.75rem] opacity-60"}>afham@gmail.com</span>
       </div>
     </div>
   )
