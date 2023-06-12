@@ -4,10 +4,9 @@ import React from 'react'
 import LoginPage from "../Pages/Auth/LoginPage"
 import Dashboard from "../Pages/Dashboard"
 
-import HomePage from "../Pages/HomePage"
-import ProfilePage from "../Pages/ProfilePage"
-import ProductPage from "../Pages/ProductPage"
 import ProtectedRoute from "../Components/ProtectedRoute"
+import AllStudents from "../Components/AllStudents"
+import AllClasses from "../Components/AllClasses"
 const MainRoutes = () => {
     return (
 
@@ -15,7 +14,8 @@ const MainRoutes = () => {
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/" element={<ProtectedRoute Component={Dashboard} />} />
-
+                <Route path="/students" element={<ProtectedRoute Component={AllStudents} />} />
+                <Route path="/classes" element={<ProtectedRoute Component={AllClasses} />} />
             </Routes>
         </BrowserRouter>
     )
