@@ -2,6 +2,7 @@
 import * as BiIcon from "react-icons/bi"
 import * as BsIcon from "react-icons/bs"
 import * as TbIcon from "react-icons/tb"
+import * as MdIcon from "react-icons/md"
 
 export const SideBarListData = [
     {
@@ -24,6 +25,12 @@ export const SideBarListData = [
         Icon: <BsIcon.BsCardList className="h-5 w-5" />,
     },
 
+
+    {
+        id: 5,
+        Name: "Media",
+        Icon: <MdIcon.MdOutlinePermMedia className="h-6 w-6" />,
+    },
 
     {
         id: 4,

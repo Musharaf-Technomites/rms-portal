@@ -9,7 +9,7 @@ module.exports = {
         glass: "#ffffff9c",
         brown: "rgba(30,30,17)",
         fontColor:"#104871",
-        primary:"red",
+        primary:"#104871",
         opacityBgColor:"#00000099"
       },
       backgroundImage:{
