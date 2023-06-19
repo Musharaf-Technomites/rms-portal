@@ -8,6 +8,7 @@ const AllStudents = () => {
     const [allStudents, setAllStudents] = useState()
     const [search, setSearch] = useState("")
     const [create, setCreate] = useState(false)
+    const [masterData, setMasterData] = useState()
 
     const GetAllStudents = () => {
         var requestOptions = {
@@ -54,6 +55,26 @@ const AllStudents = () => {
             })
             .catch(error => console.log('error', error));
     }
+
+
+    const GetAllMasterData = () => {
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:8000/api/allMasterData", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === "Success") {
+                    setMasterData(result.data)
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+    useEffect(() => {
+        GetAllMasterData()
+    }, [])
 
     return (
         <div className="w-full h-screen bg-back bg-cover flex items-center">
@@ -106,7 +127,7 @@ const AllStudents = () => {
                                                     <td>{i?.number}</td>
                                                     <td>{`${i?.school} (${i?.subject})`}</td>
                                                     <tb> <Switch onChange={() => {
-                                                        AllowStudentToLogin(i._id,!i.isAllow)
+                                                        AllowStudentToLogin(i._id, !i.isAllow)
 
                                                     }} checked={i?.isAllow} /></tb>
                                                 </tr>
@@ -125,10 +146,12 @@ const AllStudents = () => {
 
             </div>
             {
-                create && <CreateStudentModal onCancel={() => {
-                    GetAllStudents()
-                    setCreate(false)
-                }} />
+                create && <CreateStudentModal
+                    onCreate={() => alert("Yahoo")}
+                    onCancel={() => {
+                        GetAllStudents()
+                        setCreate(false)
+                    }} />
             }
 
         </div>

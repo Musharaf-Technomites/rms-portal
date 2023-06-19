@@ -6,7 +6,7 @@ import * as AiIcon from "react-icons/io"
 import * as AiiIcon from "react-icons/ai"
 import * as TiIcon from "react-icons/ti"
 import moment from 'moment'
-
+import CreateClassModal from './CreateClassModal'
 
 const AllClasses = () => {
     const [allClasses, setAllClasses] = useState([])
@@ -116,7 +116,12 @@ const AllClasses = () => {
                                 })
                             }
                         </div>
-
+                        {
+                            create && <CreateClassModal onCancel={() => {
+                                GetAllClasses()
+                                setCreate(false)
+                            }} />
+                        }
 
                     </div>
                 </div>
