@@ -7,12 +7,14 @@ import * as AiiIcon from "react-icons/ai"
 import * as TiIcon from "react-icons/ti"
 import moment from 'moment'
 import CreateClassModal from './CreateClassModal'
-
+import { useNavigate } from "react-router-dom"
 const AllClasses = () => {
     const [allClasses, setAllClasses] = useState([])
+
+
     const [search, setSearch] = useState("")
     const [create, setCreate] = useState(false)
-
+    const navigate = useNavigate()
     const GetAllClasses = () => {
         var requestOptions = {
             method: 'GET',
@@ -63,7 +65,7 @@ const AllClasses = () => {
                         <div className='bg-white h-[90%] p-5 rounded-2xl overflow-auto '>
                             {
                                 allClasses.map((i) => {
-                                    return <div className='w-full my-3 border-2 border-col border-lightgray p-2 rounded-md flex flex-row justify-between cursor-pointer'>
+                                    return <div className='w-full my-3 border-2 border-col border-lightgray p-2 rounded-md flex flex-row justify-between '>
                                         <div className='flex  w-[95%]' >
                                             <div>
                                                 <img className='h-28 rounded-md resize' src={i.thumbnail} />
@@ -107,7 +109,9 @@ const AllClasses = () => {
 
                                         </div>
 
-                                        <div className='w-[5%] items-center justify-center flex text-[1.8rem] text-fontColor'>
+                                        <div onClick={() => {
+                                            navigate(`/addStudentToClass/${i?._id}`)
+                                        }} className='w-[5%] items-center justify-center flex text-[1.8rem] text-fontColor cursor-pointer'>
                                             <AiiIcon.AiFillEdit />
                                         </div>
 
