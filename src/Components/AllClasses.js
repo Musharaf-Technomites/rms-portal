@@ -77,7 +77,7 @@ const AllClasses = () => {
                                                         <p className=''>Start Time</p>
                                                         <div className='text-[0.8rem] flex flex-row items-center '>
                                                             <AiiIcon.AiFillClockCircle />
-                                                            <p>{moment(i?.startDate).format("hh:mm A")}</p>
+                                                            <p>{i?.startDate}</p>
                                                         </div>
 
                                                     </div>
@@ -86,7 +86,7 @@ const AllClasses = () => {
                                                         <p className=''>End Time</p>
                                                         <div className='text-[0.8rem] flex flex-row items-center '>
                                                             <AiiIcon.AiFillClockCircle />
-                                                            <p>{moment(i?.endDate).format("hh:mm A")}</p>
+                                                            <p>{i?.endDate}</p>
                                                         </div>
 
                                                     </div>
