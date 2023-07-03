@@ -2,7 +2,7 @@ import React from 'react'
 import SideBar from '../Components/SideBar'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import AllStudents from '../Components/AllStudents'
-import AllClasses from '../Components/AllClasses'
+import AllClasses from '../Components/AllSchool'
 const Dashboard = () => {
     return (
         <div className="w-full h-screen bg-back bg-cover flex items-center">

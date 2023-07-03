@@ -21,7 +21,7 @@ const SideBarData = ({ toggle }) => {
             } else if (i.id === 1) {
               navigate("/")
             }else if(i.id===3){
-              navigate("/classes")
+              navigate("/school")
             }
           }} key={i.id} className={`${toggle ? "last:w-[3.6rem]" : "last:w-[16rem]"} sidebar`}>
             <div className={"mr-5 text-[1.7rem] text-fontColor "}>{i.Icon}</div>

@@ -19,12 +19,16 @@ export const SideBarListData = [
 
 
     },
+    // {
+    //     id: 3,
+    //     Name: "Classes",
+    //     Icon: <BsIcon.BsCardList className="h-5 w-5" />,
+    // },
     {
         id: 3,
-        Name: "Classes",
+        Name: "School",
         Icon: <BsIcon.BsCardList className="h-5 w-5" />,
     },
-
 
     {
         id: 5,

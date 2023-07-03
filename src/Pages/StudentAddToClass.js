@@ -1,15 +1,50 @@
 import React, { useState, useEffect } from 'react'
 import SideBar from '../Components/SideBar'
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom"
-import { BaseUrl } from '../Constants/BaseUrl'
-import * as AiIcon from "react-icons/io"
+import { useDispatch, useSelector } from "react-redux"
+import * as DataAction from "../Store/DataAction"
 
-import { useNavigate } from "react-router-dom"
 const StudentAddToClass = () => {
     const { classId } = useParams();
     const [ClassDetail, setClassDetail] = useState()
-    const [getAllStudent, setGetAllStudent] = useState([])
+    const dispatch = useDispatch()
 
+    let allStudent = useSelector((state) => state.date.allStudent)
+    let allStudenBySchool = allStudent.filter(i => i.school === ClassDetail?.schoolName)
+
+
+
+
+
+
+    const AddStudentIntoClass = (classId, StudentId) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "classId": classId,
+            "studentId": StudentId
+        });
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:8000/class/api/addStudent", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === 200) {
+                    GetClassDetails()
+
+
+
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
 
 
     const GetClassDetails = () => {
@@ -32,38 +67,28 @@ const StudentAddToClass = () => {
             .then(result => {
                 if (result.status === "success") {
                     setClassDetail(result.data)
-                }
-            })
-            .catch(error => console.log('error', error));
-    }
+                    for (let i = 0; i < allStudenBySchool.length; i++) {
+                        for (let j = 0; j < ClassDetail?.studentList.length; j++) {
+                            if (ClassDetail.studentList[j].id === allStudenBySchool[i]._id) {
+                                allStudenBySchool[i]["inClass"] = "true"
+                            } else {
+                                allStudenBySchool[i]["inClass"] = "false"
+                            }
 
-
-    const GetAllStudents = () => {
-        var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-        };
-
-        fetch("http://localhost:8000/student/api/allStudents", requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                let studentList = []
-                if (result.status === "Success") {
-                    const data = result.data
-                    for (const key in data) {
-                        if (data[key].school === ClassDetail?.schoolName) {
-                            studentList.push(data[key])
                         }
+
                     }
-                    setGetAllStudent(studentList)
                 }
             })
             .catch(error => console.log('error', error));
     }
+
+
+
     useEffect(() => {
         GetClassDetails()
-        GetAllStudents()
-    }, [classId])
+
+    }, [])
 
 
     return (
@@ -92,9 +117,12 @@ const StudentAddToClass = () => {
                         </div>
                         <div className='h-full bg-white w-50 rounded-md p-2 overflow-y-scroll'>
                             {
-                                getAllStudent.map((i) => {
-                                    return <div className='h-52'>
-                                        <p>{i?.firstName}</p>
+                                allStudent.filter(i => i.school === ClassDetail?.schoolName).map((i) => {
+                                    return <div onClick={() => {
+                                        AddStudentIntoClass(classId, i?._id)
+                                    }} className='h-24 cursor-pointer'>
+                                        <p>{i?._id}</p>
+                                        <p>{i?.inClass}</p>
                                     </div>
                                 })
                             }
