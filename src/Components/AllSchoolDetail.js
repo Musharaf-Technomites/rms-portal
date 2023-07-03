@@ -137,19 +137,15 @@ const AllSchool = () => {
                                 </div>
                             }
                         </div>
-
-
+                        {
+                            create && <CreateClassModal schoolId={schoolId} onCancel={() => {
+                                GetSchoolDetails()
+                                setCreate(false)
+                            }} />
+                        }
                     </div>
                 </div>
-
-              
-
             </div>
-
-
-
-
-
         </div>
     )
 }

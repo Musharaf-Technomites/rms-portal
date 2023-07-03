@@ -59,8 +59,8 @@ const CreateClassModal = (props) => {
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify({
+            "schoolId": props.schoolId,
             "className": formFields.className,
-            "schoolName": formFields.school,
             "zoomLink": formFields.zoomLink,
             "startDate": formFields.startData.toString(),
             "endDate": formFields.endData.toString(),
@@ -68,16 +68,19 @@ const CreateClassModal = (props) => {
             "studentList": []
         });
 
+
+
         var requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8000/class/api/classCreation", requestOptions)
+        fetch(`${BaseUrl}class/api/classCreation`, requestOptions)
             .then(response => response.json())
             .then(result => {
+                console.log(result, "schoolIdschoolIdschoolId")
                 if (result.status === "Success") {
                     alert(result.message)
                     setFormsFields({
@@ -113,7 +116,7 @@ const CreateClassModal = (props) => {
                 <div className='w-100'>
                     <form class=" " action="#">
                         <div className='flex flex-row   items-center mt-2'>
-                            <div className='w-2/4'>
+                            <div className='w-full'>
                                 <label for="email" className="block text-fontColor bold text-sm font-medium ">Class Name</label>
                                 <input onChange={(e) => setFormsFields({
                                     ...formFields,
@@ -121,21 +124,7 @@ const CreateClassModal = (props) => {
                                 })} value={formFields.className} type="email" name="email" class=" bg-gray-50 border border-gray-300 text-[#104871] sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Class Name" required="" />
                             </div>
 
-                            <div className='w-2/4'>
-                                <label for="email" className="block text-fontColor bold text-sm font-medium ">School</label>
-                                {
-                                    masterData && <select onChange={(e) => setFormsFields({
-                                        ...formFields,
-                                        school: e.target.value
-                                    })} name="cars" id="cars" className='dark:bg-gray-700 text-white h-10 rounded-lg w-full  px-3'>
-                                        {masterData?.map((i) => {
-                                            return <option className='' value={i.SchoolName}>{i?.SchoolName}</option>
 
-                                        })}
-
-                                    </select>
-                                }
-                            </div>
                         </div>
 
                         <div className='w-full'>
@@ -173,34 +162,20 @@ const CreateClassModal = (props) => {
                         </div>
 
 
-                        {/* 
-                        <div className='mt-2'>
-                            <label for="email" className="block text-fontColor bold text-sm font-medium ">Course</label>
 
-                            <select name="cars" id="cars" className='dark:bg-gray-700 text-white h-10 rounded-lg w-full  px-3'>
-                                {
-                                    courseList.map((i) => {
-                                        return <option className='' value="i.Name">{i?.Name}</option>
-                                    })
-                                }
-                            </select>
-
-                        </div> */}
                     </form>
                     <div onClick={() => {
-                      
-                    
+
+
                         if (formFields.className === "") {
                             alert("Class Name Is Needed")
-                        } else if (formFields.school === "") {
-                            alert("School Is Needed")
-                        } else if (formFields.image==="") {
+                        } else if (formFields.image === "") {
                             alert("Thumbnail Is Needed")
-                        } else if (formFields.zoomLink==="") {
+                        } else if (formFields.zoomLink === "") {
                             alert("Zoom Link Is Needed")
-                        } else if (formFields.startData==="") {
+                        } else if (formFields.startData === "") {
                             alert("Start Date Is Needed")
-                        } else if (formFields.endData==="") {
+                        } else if (formFields.endData === "") {
                             alert("End Date Is Needed")
                         } else {
                             CreateClass()
