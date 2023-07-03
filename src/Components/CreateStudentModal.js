@@ -4,6 +4,7 @@ import { BaseUrl } from '../Constants/BaseUrl'
 const CreateStudentModal = (props) => {
 
     const [masterData, setMasterData] = useState()
+    const [courseObj, setCourse] = useState()
 
     const [formFields, setFormsFields] = useState({
         firstName: "",
@@ -101,13 +102,21 @@ const CreateStudentModal = (props) => {
         }
     }
 
+    useEffect(() => {
+        if (formFields.school !== "") {
+            const CoourseObj = masterData.find((i) => i.SchoolName === formFields.school)
+            setCourse(CoourseObj)
+        }
+    }, [formFields?.school])
+
+
     const GetAllMasterData = () => {
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8000/api/allMasterData", requestOptions)
+        fetch(`${BaseUrl}api/allMasterData`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === "Success") {
@@ -119,6 +128,10 @@ const CreateStudentModal = (props) => {
     useEffect(() => {
         GetAllMasterData()
     }, [])
+
+
+
+    console.log(formFields)
     return (
         <div className='fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center'>
             <div className=' w-[30%] bg-white p-4'>
@@ -229,7 +242,7 @@ const CreateStudentModal = (props) => {
                             }} name="cars" id="cars" className='dark:bg-gray-700 text-white h-10 rounded-lg w-full  px-3'>
                                 {
                                     courseList.map((i) => {
-                                        return <option className='' value={i.Name}>{i?.Name}</option>
+                                        return <option className='' value={i}>{i?.className}</option>
                                     })
                                 }
                             </select>

@@ -91,11 +91,19 @@ const AllSchool = () => {
                                 SchoolDetails && <div>
                                     {
                                         SchoolDetails?.ClassList?.map((i) => {
-                                            console.log(i?.thumbnail, "SchoolDet")
+                                            const thumbnailImage = i.thumbnail
+
+                                            const thubnailId = thumbnailImage.split("/")
+                                            const imageId = thubnailId[5]
+                                            const imageIrl = `https://drive.google.com/uc?export=view&id=${imageId}`
+                                       
                                             return (
                                                 <div className='h-40 w-ful mb-3 rounded-lg bg-[#eef3f5] p-2  flex ' >
                                                     <div className='h-full w-1/4  rounded-md'>
-                                                        <img className='h-[100%] w-[100%]' src={`${i?.thumbnail}`} />
+                                                        {/* <img className='h-[100%] w-[100%]' src={`${i?.thumbnail}`} /> */}
+                                                        <img className='h-[100%] w-[100%]' src={imageIrl} />
+
+
                                                     </div>
                                                     <div className='ml-2 justify-center  flex flex-col text-[0.8rem]'>
                                                         <h1 className="text-[1.5rem] font-semibold">{i?.className}</h1>
@@ -120,7 +128,7 @@ const AllSchool = () => {
                                                         </div>
 
 
-                                                        <div className='flex items-center'>
+                                                        {/* <div className='flex items-center'>
                                                             <div className='mr-2'>
                                                                 <BiiIcon.BiGroup />
                                                             </div>
@@ -128,7 +136,7 @@ const AllSchool = () => {
                                                             <div>
                                                                 <p>{`Students: ${i?.count}`}</p>
                                                             </div>
-                                                        </div>
+                                                        </div> */}
                                                     </div>
                                                 </div>
                                             )

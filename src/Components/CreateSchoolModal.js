@@ -25,6 +25,9 @@ const CreateSchoolModal = (props) => {
             .then(result => {
                 if (result.status === "Success") {
                     setSchoolName("")
+                    alert(result.message)
+                }else{
+                    alert(result.message)
                 }
             })
             .catch(error => console.log('error', error));
@@ -33,9 +36,9 @@ const CreateSchoolModal = (props) => {
     return (
         <div className='fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center'>
             <div className=' w-[30%] bg-white p-4'>
-                <div className='flex flex-row justify-between p-2'>
+                <div className='flex flex-row justify-between'>
                     <div className='flex justify-center items-center'>
-                        <h4 className=' text-fontColor font-bold'>Create Students</h4>
+                        <h4 className=' text-fontColor font-bold'>Create School</h4>
                     </div>
 
                     <div onClick={props.onCancel} className='cursor-pointer text-fontColor text-[30px]'>

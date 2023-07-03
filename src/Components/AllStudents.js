@@ -98,9 +98,9 @@ const AllStudents = () => {
                                 </div>
 
                             </div>
-                            <div onClick={() => { setCreate(true) }} className='cursor-pointer text-[2.8rem] text-white ml-4'>
+                            {/* <div onClick={() => { setCreate(true) }} className='cursor-pointer text-[2.8rem] text-white ml-4'>
                                 <BiIcon.IoMdAddCircle />
-                            </div>
+                            </div> */}
                         </div>
 
                     </div>
@@ -112,7 +112,7 @@ const AllStudents = () => {
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Number</th>
-                                        <th>{"School (Subject)"}</th>
+                                        <th>{"School (Course)"}</th>
                                         <th>Allow</th>
                                     </tr>
                                 </thead>
@@ -125,7 +125,7 @@ const AllStudents = () => {
                                                     <td>{fullName}</td>
                                                     <td>{i?.email}</td>
                                                     <td>{i?.number}</td>
-                                                    <td>{`${i?.school} (${i?.subject})`}</td>
+                                                    <td>{`${i?.schoolName} (${i?.courseName})`}</td>
                                                     <tb> <Switch onChange={() => {
                                                         AllowStudentToLogin(i._id, !i.isAllow)
 
