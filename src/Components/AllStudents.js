@@ -3,7 +3,7 @@ import SideBar from '../Components/SideBar'
 import * as BiIcon from "react-icons/io"
 import CreateStudentModal from './CreateStudentModal';
 import Switch from "react-switch";
-
+import { BaseUrl } from '../Constants/BaseUrl';
 const AllStudents = () => {
     const [allStudents, setAllStudents] = useState()
     const [search, setSearch] = useState("")
@@ -16,7 +16,7 @@ const AllStudents = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8000/student/api/allStudents", requestOptions)
+        fetch(`${BaseUrl}student/api/allStudents`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === "Success") {
@@ -46,7 +46,7 @@ const AllStudents = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8000/student/api/allowStudent", requestOptions)
+        fetch(`${BaseUrl}student/api/allowStudent`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === 200) {
@@ -63,7 +63,7 @@ const AllStudents = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8000/api/allMasterData", requestOptions)
+        fetch(`${BaseUrl}api/allMasterData`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === "Success") {
@@ -75,7 +75,6 @@ const AllStudents = () => {
     useEffect(() => {
         GetAllMasterData()
     }, [])
-
     return (
         <div className="w-full h-screen bg-back bg-cover flex items-center">
             <div className="w-full h-screen bg-opacityBgColor flex">

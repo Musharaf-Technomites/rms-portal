@@ -79,6 +79,7 @@ const AllSchool = () => {
                                 allSchools && <table class=" w-100">
                                     <thead>
                                         <tr style={{ padding: 10 }} className=" h-12  rounded-2xl text-lg	">
+                                            <th>Logo</th>
                                             <th>School Name</th>
                                             <th>Classes</th>
                                             <th>{` `}</th>
@@ -89,9 +90,15 @@ const AllSchool = () => {
                                     <tbody className='m-6'>
                                         {
                                             allSchools.map((i) => {
-
+                                                const thumbnailImage = i.SchoolLogo
+                                                const thubnailId = thumbnailImage.split("/")
+                                                const imageId = thubnailId[5]
+                                                const imageIrl = `https://drive.google.com/uc?export=view&id=${imageId}`
                                                 if (i?.SchoolName.includes(search)) {
-                                                    return <tr className='m-2 h-12 px-6 odd:bg-[#e4e0e0] rounded-full '>
+                                                    return <tr className='m-2 h-20 px-6 odd:bg-[#e4e0e0] rounded-full '>
+                                                        <td className='px-2'>
+                                                            <img className='h-[50px] w-[50px] rounded' src={imageIrl} />
+                                                        </td>
                                                         <td className='px-2'> {i.SchoolName}</td>
                                                         <td className='text-md font-bold items-center justify-center'>{i?.ClassList?.length}</td>
                                                         <td onClick={() => {
