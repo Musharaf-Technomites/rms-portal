@@ -3,7 +3,7 @@ import SideBar from '../Components/SideBar'
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import * as DataAction from "../Store/DataAction"
-import { BaseUrl } from '../Constants/BaseUrl'
+
 const StudentAddToClass = () => {
     const { classId } = useParams();
     const [ClassDetail, setClassDetail] = useState()
@@ -33,7 +33,7 @@ const StudentAddToClass = () => {
             redirect: 'follow'
         };
 
-        fetch(`${BaseUrl}class/api/addStudent`, requestOptions)
+        fetch("http://localhost:8000/class/api/addStudent", requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === 200) {
@@ -62,7 +62,7 @@ const StudentAddToClass = () => {
             redirect: 'follow'
         };
 
-        fetch(`${BaseUrl}class/api/getClassDetail`, requestOptions)
+        fetch("http://localhost:8000/class/api/getClassDetail", requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === "success") {

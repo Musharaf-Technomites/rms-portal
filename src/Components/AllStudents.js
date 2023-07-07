@@ -3,7 +3,6 @@ import SideBar from '../Components/SideBar'
 import * as BiIcon from "react-icons/io"
 import CreateStudentModal from './CreateStudentModal';
 import Switch from "react-switch";
-import { BaseUrl } from '../Constants/BaseUrl';
 
 const AllStudents = () => {
     const [allStudents, setAllStudents] = useState()
@@ -17,7 +16,7 @@ const AllStudents = () => {
             redirect: 'follow'
         };
 
-        fetch(`${BaseUrl}student/api/allStudents`, requestOptions)
+        fetch("http://localhost:8000/student/api/allStudents", requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === "Success") {
@@ -47,7 +46,7 @@ const AllStudents = () => {
             redirect: 'follow'
         };
 
-        fetch(`${BaseUrl}student/api/allowStudent`, requestOptions)
+        fetch("http://localhost:8000/student/api/allowStudent", requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === 200) {
@@ -64,7 +63,7 @@ const AllStudents = () => {
             redirect: 'follow'
         };
 
-        fetch(`${BaseUrl}api/allMasterData`, requestOptions)
+        fetch("http://localhost:8000/api/allMasterData", requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === "Success") {
@@ -84,7 +83,7 @@ const AllStudents = () => {
                     <SideBar />
                 </div>
 
-                <div className={"w-100 overflow-auto bg-glass  ml-4 mr-4 mt-2.5 mb-8 rounded-3xl p-4 ]"}>
+                <div className={"w-100 overflow-auto bg-glass  ml-4 mr-4 mt-2.5 mb-8 rounded-3xl p-4 bg-[#164370]"}>
 
                     <div className='h-16 w-100 flex justify-between items-center '>
                         <div className='flex flex-row justify-center items-center'>
