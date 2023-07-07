@@ -40,7 +40,7 @@ const CreateClassModal = (props) => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8000/api/allMasterData", requestOptions)
+        fetch(`${BaseUrl}api/allMasterData`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === "Success") {

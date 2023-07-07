@@ -3,6 +3,7 @@ import * as MdIcon from "react-icons/md"
 import { BaseUrl } from "../Constants/BaseUrl"
 const CreateSchoolModal = (props) => {
     const [schoolName, setSchoolName] = useState("")
+    const [schoolLogo, setSchoolLogo] = useState("")
 
 
     const CreateSchool = () => {
@@ -10,7 +11,9 @@ const CreateSchoolModal = (props) => {
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify({
-            "SchoolName": schoolName
+            "SchoolName": schoolName,
+            "SchoolLogo": schoolLogo
+
         });
 
         var requestOptions = {
@@ -25,8 +28,9 @@ const CreateSchoolModal = (props) => {
             .then(result => {
                 if (result.status === "Success") {
                     setSchoolName("")
+                    setSchoolLogo("")
                     alert(result.message)
-                }else{
+                } else {
                     alert(result.message)
                 }
             })
@@ -56,6 +60,13 @@ const CreateSchoolModal = (props) => {
                             <input onChange={(e) => {
                                 setSchoolName(e.target.value)
                             }} type="text" value={schoolName} name="schoolName" class="bg-gray-50 border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter School Name Here" required="" />
+                        </div>
+
+                        <div className='w-full'>
+                            <label for="School Logo" className="block text-fontColor bold text-sm font-medium ">School Logo </label>
+                            <input onChange={(e) => {
+                                setSchoolLogo(e.target.value)
+                            }} type="text" value={schoolLogo} name="schoolName" class="bg-gray-50 border border-gray-300 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter School Logo Here" required="" />
                         </div>
 
 
