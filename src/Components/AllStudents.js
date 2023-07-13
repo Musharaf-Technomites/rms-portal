@@ -109,21 +109,23 @@ const AllStudents = () => {
                                 <thead>
                                     <tr style={{ padding: 10 }} className=" h-12  rounded-2xl text-lg	">
                                         <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Number</th>
+                                        <th>Email / Number</th>
                                         <th>{"School (Course)"}</th>
                                         <th>Allow</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
                                     {
                                         allStudents.map((i) => {
                                             let fullName = i?.firstName?.toLowerCase() + " " + i?.lastName?.toLowerCase()
                                             if (fullName.includes(search)) {
                                                 return <tr className='m-2'>
                                                     <td>{fullName}</td>
-                                                    <td>{i?.email}</td>
-                                                    <td>{i?.number}</td>
+                                                    <td>
+                                                        <p>{i?.email}</p>
+                                                        <p className='font-bold	'>{i?.number}</p>
+                                                    </td>
+
                                                     <td>{`${i?.schoolName} (${i?.courseName})`}</td>
                                                     <tb> <Switch onChange={() => {
                                                         AllowStudentToLogin(i._id, !i.isAllow)
@@ -153,7 +155,7 @@ const AllStudents = () => {
                     }} />
             }
 
-        </div>
+        </div >
     )
 }
 

@@ -1,9 +1,10 @@
-import { LoginActionConst, LogOutActionConst } from "./AuthActionConst"
+import { LoginActionConst, LogOutActionConst, CurrentSideBaseStateActionConst } from "./AuthActionConst"
 
 const initialState = {
     loader: false,
     userSuccessData: null,
-    userErrotData: null
+    userErrotData: null,
+    currentSideState: "Home"
 }
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -36,6 +37,12 @@ export default (state = initialState, action) => {
                 userErrotData: null,
                 loader: false,
                 userSuccessData: null
+            }
+            break
+        case CurrentSideBaseStateActionConst.CURRENT_SIDE_BAR_STATUS:
+            state = {
+                ...state,
+                currentSideState: action.state
             }
             break
 

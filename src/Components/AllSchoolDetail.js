@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom"
 import * as DataAction from "../Store/DataAction"
 import * as BiIcon from "react-icons/io"
 import * as BiiIcon from "react-icons/bi"
+
 import * as AiIcon from "react-icons/ai"
 const AllSchool = () => {
     const allStudent = useSelector((state) => state.date.allStudent)
@@ -96,7 +97,7 @@ const AllSchool = () => {
                                             const thubnailId = thumbnailImage.split("/")
                                             const imageId = thubnailId[5]
                                             const imageIrl = `https://drive.google.com/uc?export=view&id=${imageId}`
-                                       
+
                                             return (
                                                 <div className='h-40 w-ful mb-3 rounded-lg bg-[#eef3f5] p-2  flex ' >
                                                     <div className='h-full w-1/4  rounded-md'>
@@ -105,7 +106,7 @@ const AllSchool = () => {
 
 
                                                     </div>
-                                                    <div className='ml-2 justify-center  flex flex-col text-[0.8rem]'>
+                                                    <div className='ml-2 justify-center  flex flex-col text-[0.8rem] w-8/12'>
                                                         <h1 className="text-[1.5rem] font-semibold">{i?.className}</h1>
                                                         <div className='flex items-center ]'>
                                                             <div className='mr-2 text=[#104871] '>
@@ -123,20 +124,18 @@ const AllSchool = () => {
                                                             </div>
 
                                                             <div>
-                                                                <p>{`Start Time: ${i?.startDate}`}</p>
+                                                                <p>{`End Time: ${i?.endDate}`}</p>
                                                             </div>
                                                         </div>
 
 
-                                                        {/* <div className='flex items-center'>
-                                                            <div className='mr-2'>
-                                                                <BiiIcon.BiGroup />
-                                                            </div>
 
-                                                            <div>
-                                                                <p>{`Students: ${i?.count}`}</p>
-                                                            </div>
-                                                        </div> */}
+
+                                                    </div>
+                                                    <div onClick={() => {
+                                                        navigate(`/allAssignment/${i?._id}`)
+                                                    }} class="justify-center items-center flex cursor-pointer">
+                                                        <AiIcon.AiFillCaretRight />
                                                     </div>
                                                 </div>
                                             )

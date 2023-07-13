@@ -7,3 +7,7 @@ export const LoginActionConst = {
 export const LogOutActionConst = {
     LOGOUT_ACTION_CONST: "LOGOUT_ACTION_CONST"
 }
+
+export const CurrentSideBaseStateActionConst = {
+    CURRENT_SIDE_BAR_STATUS: "CURRENT_SIDE_BAR_STATUS"
+}

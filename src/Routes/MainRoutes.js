@@ -9,6 +9,7 @@ import AllStudents from "../Components/AllStudents"
 import AllSchool from "../Components/AllSchool"
 import AllSchoolDetail from "../Components/AllSchoolDetail"
 import StudentAddToClass from "../Pages/StudentAddToClass"
+import AllAsssignment from "../Components/AllAsssignment"
 
 const MainRoutes = () => {
     return (
@@ -21,6 +22,7 @@ const MainRoutes = () => {
                 <Route path="/school" element={<ProtectedRoute Component={AllSchool} />} />
                 <Route path="/schoolDetails/:schoolId" element={<ProtectedRoute Component={AllSchoolDetail} />} />
                 <Route path="/addStudentToClass/:classId" element={<ProtectedRoute Component={StudentAddToClass} />} />
+                <Route path="/allAssignment/:classId" element={<ProtectedRoute Component={AllAsssignment} />} />
             </Routes>
         </BrowserRouter>
     )

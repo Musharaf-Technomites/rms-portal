@@ -1,5 +1,5 @@
 import { BaseUrl } from "../Constants/BaseUrl";
-import { LoginActionConst, LogOutActionConst } from "./AuthActionConst"
+import { LoginActionConst, LogOutActionConst, CurrentSideBaseStateActionConst } from "./AuthActionConst"
 export const UserLoginAction = info => {
     return async dispatch => {
         dispatch({
@@ -47,6 +47,17 @@ export const UserLogoutAction = info => {
     return async dispatch => {
         dispatch({
             type: LogOutActionConst.LOGOUT_ACTION_CONST,
+
+        })
+    };
+};
+
+
+export const CurrentSideBaseStateAction = state => {
+    return async dispatch => {
+        dispatch({
+            type: CurrentSideBaseStateActionConst.CURRENT_SIDE_BAR_STATUS,
+            state: state
 
         })
     };
