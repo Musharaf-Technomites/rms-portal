@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom"
 import * as DataAction from "../Store/DataAction"
 import * as BiIcon from "react-icons/io"
 import * as AiIcon from "react-icons/ai"
+import CreateAssignmentModal from './CreateAssignmentModal'
 
 
 const AllAsssignment = () => {
@@ -97,9 +98,9 @@ const AllAsssignment = () => {
                                         return (
                                             <div className="min-h-40 bg-[#eef3f5] w-[49%] mt-4 rounded-md drop-shadow-md flex p-3">
                                                 <div>
-                                                    <div className='flex justify-between'>
+                                                    <div className='flex justify-between w-full'>
                                                         <h1 className=' text-[1.5rem] text-[#164370] font-bold' >{i?.AssignmentName}</h1>
-                                                        <a href="https://www.africau.edu/images/default/sample.pdf" target='_blank'> <div className='text-4xl cursor-pointer' >
+                                                        <a href={i?.PdfFile} target='_blank'> <div className='text-4xl cursor-pointer item' >
 
                                                             <AiIcon.AiFillFilePdf />
                                                         </div>
@@ -110,7 +111,7 @@ const AllAsssignment = () => {
                                                     <h1 className=' text-[0.9rem] text-black] mt-2' >{`Total Marks: ${i.TotalMarks}`}</h1>
                                                     <h1 className=' text-[0.9rem] text-black] mt-2' >{`Last Date: ${moment(i?.LastDate).format("DD-MM-YY")}`}</h1>
                                                     <h1 className=' text-[1rem] text-black] mt-2 font-bold' >{`Description`}</h1>
-                                                    <h1 className=' text-[0.8rem] text-black] mt-2' >{`Total Marks: ${i?.AssignmentDescription}`}</h1>
+                                                    <h1 className=' text-[0.8rem] text-black] mt-2 w-full' >{`Total Marks: ${i?.AssignmentDescription}`}</h1>
                                                 </div>
 
 
@@ -124,12 +125,12 @@ const AllAsssignment = () => {
 
                             </div>
                         </div>
-                        {/* {
-                            create && <CreateClassModal schoolId={schoolId} onCancel={() => {
-                                GetSchoolDetails()
+                        {
+                            create && <CreateAssignmentModal classId={classId} onCancel={() => {
+                                GetAllAssignment()
                                 setCreate(false)
                             }} />
-                        } */}
+                        }
                     </div>
                 </div>
             </div>

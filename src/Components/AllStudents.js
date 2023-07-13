@@ -119,11 +119,11 @@ const AllStudents = () => {
                                         allStudents.map((i) => {
                                             let fullName = i?.firstName?.toLowerCase() + " " + i?.lastName?.toLowerCase()
                                             if (fullName.includes(search)) {
-                                                return <tr className='m-2'>
+                                                return <tr className='m-4'>
                                                     <td>{fullName}</td>
                                                     <td>
                                                         <p>{i?.email}</p>
-                                                        <p className='font-bold	'>{i?.number}</p>
+                                                        <p className='font-bold text-xs'>{i?.number}</p>
                                                     </td>
 
                                                     <td>{`${i?.schoolName} (${i?.courseName})`}</td>
