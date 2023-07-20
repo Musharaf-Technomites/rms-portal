@@ -12,6 +12,7 @@ import StudentAddToClass from "../Pages/StudentAddToClass"
 
 import ClassDashboard from "../Components/ClassDashboard"
 import AllAsssignment from "../Components/AllAsssignment"
+import AssignmentDetails from "../Components/AssignmentDetails"
 
 const MainRoutes = () => {
     return (
@@ -26,6 +27,7 @@ const MainRoutes = () => {
                 <Route path="/addStudentToClass/:classId" element={<ProtectedRoute Component={StudentAddToClass} />} />
                 <Route path="/allAssignment/:classId" element={<ProtectedRoute Component={AllAsssignment} />} />
                 <Route path="/classDashboard/:classId" element={<ProtectedRoute Component={ClassDashboard} />} />
+                <Route path="/assignmentDetails/:assignmentId" element={<ProtectedRoute Component={AssignmentDetails} />} />
             </Routes>
         </BrowserRouter>
     )

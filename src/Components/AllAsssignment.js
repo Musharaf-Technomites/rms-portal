@@ -96,7 +96,9 @@ const AllAsssignment = () => {
                                 {
                                     allAssignment.map((i) => {
                                         return (
-                                            <div className="min-h-40 bg-[#eef3f5] w-[49%] mt-4 rounded-md drop-shadow-md flex p-3">
+                                            <div onClick={() => {
+                                                navigate(`/assignmentDetails/${i._id}`)
+                                            }} className="min-h-40 bg-[#eef3f5] w-[49%] mt-4 rounded-md drop-shadow-md flex p-3">
                                                 <div>
                                                     <div className='flex justify-between w-full'>
                                                         <h1 className=' text-[1.5rem] text-[#164370] font-bold' >{i?.AssignmentName}</h1>
