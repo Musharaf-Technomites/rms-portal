@@ -133,7 +133,7 @@ const AllSchool = () => {
 
                                                     </div>
                                                     <div onClick={() => {
-                                                        navigate(`/allAssignment/${i?._id}`)
+                                                        navigate(`/classDashboard/${i?._id}`)
                                                     }} class="justify-center items-center flex cursor-pointer">
                                                         <AiIcon.AiFillCaretRight />
                                                     </div>

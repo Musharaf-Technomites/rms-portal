@@ -111,7 +111,7 @@ const AllAsssignment = () => {
                                                     <h1 className=' text-[0.9rem] text-black] mt-2' >{`Total Marks: ${i.TotalMarks}`}</h1>
                                                     <h1 className=' text-[0.9rem] text-black] mt-2' >{`Last Date: ${moment(i?.LastDate).format("DD-MM-YY")}`}</h1>
                                                     <h1 className=' text-[1rem] text-black] mt-2 font-bold' >{`Description`}</h1>
-                                                    <h1 className=' text-[0.8rem] text-black] mt-2 w-full' >{`Total Marks: ${i?.AssignmentDescription}`}</h1>
+                                                    <h1 className=' text-[0.8rem] text-black] mt-2 w-full' >{`${i?.AssignmentDescription}`}</h1>
                                                 </div>
 
 
