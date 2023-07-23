@@ -13,17 +13,22 @@ import * as AiIcon from "react-icons/ai"
 import * as SiIcon from "react-icons/si"
 import CreateAssignmentModal from './CreateAssignmentModal'
 import CsvLink from "react-csv-export";
+import AssignmentMarksModal from './AssignmentMarksModal'
 
 const AssignmentDetails = () => {
     const allStudent = useSelector((state) => state.date.allStudent)
     const { assignmentId } = useParams();
 
 
+
     const dispatch = useDispatch()
 
 
     const [search, setSearch] = useState("")
+    const [marks, setMarks] = useState("")
     const [create, setCreate] = useState(false)
+    const [selectedStudent, setSelectedStudent] = useState()
+
     const navigate = useNavigate()
 
     // const GetAllStudent = () => {
@@ -32,6 +37,39 @@ const AssignmentDetails = () => {
 
 
     const [assignmentDetails, setAssignmentDetails] = useState()
+
+    const AssignmentMarksSubmittion = () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "assignmentId": assignmentId,
+            "studentId": selectedStudent,
+            "marks": marks
+        });
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(`${BaseUrl}api/assignment/markSubmission`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === 200) {
+                    setCreate(false)
+                    GetAssignmentDetails()
+
+                    selectedStudent()
+                    setMarks("")
+
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
     const GetAssignmentDetails = () => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -137,6 +175,7 @@ const AssignmentDetails = () => {
                                                 <th>Number</th>
                                                 <th>PDF File</th>
                                                 <th>Marks</th>
+                                                <th>Edit</th>
                                             </tr>
                                         </thead>
                                         <tbody >
@@ -159,16 +198,15 @@ const AssignmentDetails = () => {
                                                                 </a>
                                                             </td>
 
-
+                                                            <td>{item?.marksObtain}</td>
                                                             <td >
-                                                                {
-                                                                    item?.marksObtain === 0 ? <a className='cursor-pointer' href={item?.pdfLink} target='_blank'>
-                                                                        <div className='text-2xl cursor-pointer item' >
-                                                                            <AiIcon.AiFillEdit />
-                                                                        </div>
-                                                                    </a> : <td>{item?.marksObtain}</td>
-                                                                }
-
+                                                                <div onClick={() => {
+                                                                    setMarks("")
+                                                                    setSelectedStudent(item?.studentId)
+                                                                    setCreate(true)
+                                                                }} className='text-2xl cursor-pointer item' >
+                                                                    <AiIcon.AiFillEdit />
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     )
@@ -181,12 +219,20 @@ const AssignmentDetails = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* {
-                            create && <CreateAssignmentModal classId={classId} onCancel={() => {
-                                GetAllAssignment()
-                                setCreate(false)
-                            }} />
-                        } */}
+                        {
+                            create && <AssignmentMarksModal
+                                marks={marks}
+                                onChange={(e) => setMarks(e.target.value)}
+                                classId={""} onCancel={() => {
+                                    GetAssignmentDetails()
+                                    setCreate(false)
+                                }}
+                                onClick={AssignmentMarksSubmittion}
+
+                            />
+
+
+                        }
                     </div>
                 </div>
             </div>
