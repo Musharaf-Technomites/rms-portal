@@ -14,6 +14,9 @@ import ClassDashboard from "../Components/ClassDashboard"
 import AllAsssignment from "../Components/AllAsssignment"
 import AssignmentDetails from "../Components/AssignmentDetails"
 
+import AllQuizes from "../Components/AllQuizes"
+import QuizDetails from "../Components/QuizDetails"
+
 const MainRoutes = () => {
     return (
 
@@ -26,8 +29,10 @@ const MainRoutes = () => {
                 <Route path="/schoolDetails/:schoolId" element={<ProtectedRoute Component={AllSchoolDetail} />} />
                 <Route path="/addStudentToClass/:classId" element={<ProtectedRoute Component={StudentAddToClass} />} />
                 <Route path="/allAssignment/:classId" element={<ProtectedRoute Component={AllAsssignment} />} />
+                <Route path="/allQuizes/:classId" element={<ProtectedRoute Component={AllQuizes} />} />
                 <Route path="/classDashboard/:classId" element={<ProtectedRoute Component={ClassDashboard} />} />
                 <Route path="/assignmentDetails/:assignmentId" element={<ProtectedRoute Component={AssignmentDetails} />} />
+                <Route path="/quizDetails/:quizId" element={<ProtectedRoute Component={QuizDetails} />} />
             </Routes>
         </BrowserRouter>
     )

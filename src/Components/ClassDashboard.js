@@ -100,10 +100,10 @@ const ClassDashboard = () => {
                                 <img className='h-[100%] w-full rounded-lg' src={classImage} />
                             </div>
 
-                            <div onClick={() => {
-                                navigate(`/allAssignment/${classId}`)
-                            }} className='h-80 w-full mt-2 flex-wrap flex justify-between'>
-                                <div className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer hover:h-44'>
+                            <div className='h-80 w-full mt-2 flex-wrap flex justify-between'>
+                                <div onClick={() => {
+                                    navigate(`/allAssignment/${classId}`)
+                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer hover:h-44'>
                                     <div className='text-lg'>
                                         <MdIcon.MdAssignment className={"h-20 w-20 text-fontColor"} />
                                     </div>
@@ -112,7 +112,9 @@ const ClassDashboard = () => {
 
                                 </div>
 
-                                <div className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer hover:h-44'>
+                                <div onClick={() => {
+                                    navigate(`/allQuizes/${classId}`)
+                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer hover:h-44'>
                                     <div className='text-lg'>
                                         <MdIcon.MdQuiz className={"h-20 w-20 text-fontColor"} />
                                     </div>
