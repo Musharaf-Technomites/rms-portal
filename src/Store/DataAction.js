@@ -1,4 +1,4 @@
-import { GetALlStudentsConst } from "./DataActionConst";
+import { GetALlStudentsConst, GetALlStudentsByIdConst, SelectQuizStudentActionConst } from "./DataActionConst";
 import { BaseUrl } from "../Constants/BaseUrl"
 export const GetALlStudents = () => {
     return async dispatch => {
@@ -20,5 +20,27 @@ export const GetALlStudents = () => {
                 }
             })
             .catch(error => console.log('error', error));
+    };
+};
+
+
+export const GetALlStudentsByIdAction = (list) => {
+    return async dispatch => {
+        dispatch({
+            type: GetALlStudentsByIdConst.GET_ALL_STUDENT_BY_ID,
+            students: list
+        })
+    };
+};
+
+
+
+export const SelectQuizStudentAction = (id) => {
+    console.log(id,"studentIdstudentIdstudentId")
+    return async dispatch => {
+        dispatch({
+            type: SelectQuizStudentActionConst.SELECT_UNSELECT_QUIZ_STUDENT,
+            studentId: id
+        })
     };
 };

@@ -14,6 +14,8 @@ import * as SiIcon from "react-icons/si"
 import CreateAssignmentModal from './CreateAssignmentModal'
 import CsvLink from "react-csv-export";
 import AssignmentMarksModal from './AssignmentMarksModal'
+import AllStudentByClassIdPopUp from './AllStudentByClassIdPopUp'
+import QuizMarksModal from "../Components/QuizMarksModal"
 
 const QuizDetails = () => {
     const allStudent = useSelector((state) => state.date.allStudent)
@@ -27,6 +29,8 @@ const QuizDetails = () => {
     const [search, setSearch] = useState("")
     const [marks, setMarks] = useState("")
     const [create, setCreate] = useState(false)
+    const [quizMarks, setQuizMarks] = useState(false)
+
     const [selectedStudent, setSelectedStudent] = useState()
 
     const navigate = useNavigate()
@@ -38,37 +42,9 @@ const QuizDetails = () => {
 
     const [quizDetails, setquizDetails] = useState()
 
-    // const AssignmentMarksSubmittion = () => {
-    //     var myHeaders = new Headers();
-    //     myHeaders.append("Content-Type", "application/json");
 
-    //     var raw = JSON.stringify({
-    //         "assignmentId": quizId,
-    //         "studentId": selectedStudent,
-    //         "marks": marks
-    //     });
 
-    //     var requestOptions = {
-    //         method: 'PUT',
-    //         headers: myHeaders,
-    //         body: raw,
-    //         redirect: 'follow'
-    //     };
 
-    //     fetch(`${BaseUrl}api/assignment/markSubmission`, requestOptions)
-    //         .then(response => response.json())
-    //         .then(result => {
-    //             if (result.status === 200) {
-    //                 setCreate(false)
-    //                 GetquizDetails()
-
-    //                 selectedStudent()
-    //                 setMarks("")
-
-    //             }
-    //         })
-    //         .catch(error => console.log('error', error));
-    // }
 
     const GetquizDetails = () => {
         var myHeaders = new Headers();
@@ -90,6 +66,7 @@ const QuizDetails = () => {
             .then(result => {
                 if (result.status === 200) {
                     setquizDetails(result.data)
+
                 } else {
                     alert(result?.message)
                 }
@@ -100,8 +77,58 @@ const QuizDetails = () => {
 
     useEffect(() => {
         GetquizDetails()
+
         dispatch(DataAction.GetALlStudents())
+        // dispatch(DataAction.GetALlStudentsByIdAction())
     }, [])
+
+
+
+    useEffect(() => {
+        if (quizDetails) {
+
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify({
+                "calssId": quizDetails?.ClassId
+            });
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch(`${BaseUrl}student/api/allStudentsByClassId`, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status === "Success") {
+                        let list = result.data
+                        for (let i = 0; i < list.length; i++) {
+                            for (let j = 0; j < quizDetails?.SubmittedList.length; j++) {
+                                if (quizDetails?.SubmittedList) {
+                                    if (quizDetails?.SubmittedList[j]?.studentId === list[i]._id) {
+                                        list[i]["isSelected"] = true
+                                    }
+                                } else {
+                                    list[i]["isSelected"] = true
+                                }
+
+
+
+                            }
+
+
+                        }
+                        dispatch(DataAction.GetALlStudentsByIdAction(list))
+                    }
+                })
+                .catch(error => console.log('error', error));
+        }
+
+    }, [quizDetails])
 
     const [csvData, setCsvData] = useState();
 
@@ -116,7 +143,7 @@ const QuizDetails = () => {
                             Name: allStudent[i].firstName + " " + allStudent[i].lastName,
                             Number: allStudent[i].number,
                             "Total Marks": quizDetails?.SubmittedList[j].totalMarks,
-                            "Marks Obtail": quizDetails?.SubmittedList[j].marksObtain
+                            "Marks Obtail": quizDetails?.SubmittedList[j].marksObtail
                         })
                     }
                 }
@@ -127,6 +154,65 @@ const QuizDetails = () => {
 
         }
     }, [allStudent, quizDetails])
+
+
+    const UpdateQuizMarks = (SubmittedList) => {
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "QuizName": quizDetails.QuizName,
+            "QuizDescription": quizDetails.QuizDescription,
+            "LastDate": quizDetails?.LastDate,
+            "PdfFile": quizDetails?.PdfFile,
+            "ClassId": quizDetails.ClassId,
+            "TotalMarks": quizDetails?.TotalMarks,
+            "SubmittedList": SubmittedList,
+            "QuizActive": quizDetails?.QuizActive,
+            "_id": quizDetails._id
+        });
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(`${BaseUrl}api/quiz/marksSubmission`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+
+                if (result.status === 200) {
+                    setMarks("")
+                    setQuizMarks(false)
+                    GetquizDetails()
+
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
+    const QuizMarksSubmitHandler = () => {
+        let listiStudent = quizDetails.SubmittedList
+
+        for (let index = 0; index < listiStudent.length; index++) {
+            if (listiStudent[index].studentId === selectedStudent?.studentId) {
+                listiStudent[index].marksObtail = marks
+            }
+
+        }
+
+        UpdateQuizMarks(listiStudent)
+
+
+
+
+
+
+
+    }
 
     return (
         <div className="w-full h-screen bg-back bg-cover flex items-center">
@@ -165,13 +251,64 @@ const QuizDetails = () => {
                             <div className='w-full flex-wrap justify-between overflow-scroll'>
                                 {/* <h1 className=' text-fontColor font-bold'>{"Students Assignments"}</h1> */}
                                 <div className='my-2 w-full'>
+                                    <div className='flex justify-between w-full items-center'>
+                                        <h1 className='text-fontColor font-bold'>All Students</h1>
+                                        {/* <div onClick={() => setCreate(true)} className='cursor-pointer'>
+                                            <AiIcon.AiFillPlusCircle
+                                                style={{ fontSize: 40, color: "#104871" }}
+                                            />
+                                        </div> */}
+                                    </div>
 
+                                    <div>
+                                        <table class="w-full">
+                                            <thead className=''>
+                                                <tr className=' text-sm text-fontColor h-10 rounded-md'>
+                                                    <th>Full Name</th>
+                                                    <th>Number</th>
+                                                    <th>PDF File</th>
+                                                    <th>Marks</th>
+                                                    <th>Edit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    quizDetails?.SubmittedList?.map((item) => {
+
+
+                                                        return (
+                                                            <tr className='h-10 text-md' >
+                                                                <td className='font-bold '>{item?.studentName}</td>
+                                                                <td>{item?.number}</td>
+
+                                                                <td>{item?.totalMarks}</td>
+
+
+                                                                <td>{item?.marksObtail}</td>
+                                                                <td >
+                                                                    <div onClick={() => {
+                                                                        setQuizMarks("")
+                                                                        setSelectedStudent(item)
+                                                                        setQuizMarks(true)
+                                                                    }} className='text-2xl cursor-pointer item' >
+                                                                        <AiIcon.AiFillEdit />
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    })
+                                                }
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
 
                                 </div>
                             </div>
                         </div>
-                        {/* {
-                            create && <AssignmentMarksModal
+                        {
+                            create && <AllStudentByClassIdPopUp
                                 marks={marks}
                                 onChange={(e) => setMarks(e.target.value)}
                                 classId={""} onCancel={() => {
@@ -179,13 +316,22 @@ const QuizDetails = () => {
                                     setCreate(false)
                                 }}
                                 onClick={() => {
-
+                                    setCreate(false)
                                 }}
 
                             />
 
 
-                        } */}
+                        }
+
+                        {
+                            quizMarks && <QuizMarksModal marks={marks} onChange={(e) => {
+                                setMarks(e.target.value)
+                            }}
+                                onClick={QuizMarksSubmitHandler}
+                                onCancel={() => setQuizMarks(false)}
+                            />
+                        }
                     </div>
                 </div>
             </div>
