@@ -16,7 +16,7 @@ import AssignmentDetails from "../Components/AssignmentDetails"
 
 import AllQuizes from "../Components/AllQuizes"
 import QuizDetails from "../Components/QuizDetails"
-
+import AllStudentByClass from "../Components/AllStudentByClass"
 const MainRoutes = () => {
     return (
 
@@ -33,6 +33,7 @@ const MainRoutes = () => {
                 <Route path="/classDashboard/:classId" element={<ProtectedRoute Component={ClassDashboard} />} />
                 <Route path="/assignmentDetails/:assignmentId" element={<ProtectedRoute Component={AssignmentDetails} />} />
                 <Route path="/quizDetails/:quizId" element={<ProtectedRoute Component={QuizDetails} />} />
+                <Route path="/AllStudentByClass/:classId" element={<ProtectedRoute Component={AllStudentByClass} />} />
             </Routes>
         </BrowserRouter>
     )

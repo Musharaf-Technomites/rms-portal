@@ -123,12 +123,14 @@ const ClassDashboard = () => {
 
                                 </div>
 
-                                <div className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer hover:h-44'>
+                                <div onClick={() => {
+                                    navigate(`/AllStudentByClass/${classId}`)
+                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer hover:h-44'>
                                     <div className='text-lg'>
                                         <HiIcon.HiUserGroup className={"h-20 w-20 text-fontColor"} />
                                     </div>
 
-                                    <h1 className='text-fontColor font-medium ' >All Students</h1>
+                                    <h1 className='text-fontColor font-medium ' >Students Attandance</h1>
 
                                 </div>
 
