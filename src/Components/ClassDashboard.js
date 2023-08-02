@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import CreateClassModal from './CreateClassModal'
 import { useNavigate } from "react-router-dom"
 import * as DataAction from "../Store/DataAction"
-import * as BiIcon from "react-icons/io"
+import * as BsIcon from "react-icons/bs"
 import * as MdIcon from "react-icons/md"
 import * as HiIcon from "react-icons/hi"
 import * as GiIcon from "react-icons/gi"
@@ -75,7 +75,7 @@ const ClassDashboard = () => {
                     <SideBar />
                 </div>
                 <div className={"w-100 overflow-auto bg-glass  ml-4 mr-4 mt-2.5 mb-8 rounded-3xl"}>
-                    <div className={"w-100 overflow-auto bg-glass   mb-8 rounded-3xl p-4 bg-[#164370]"}>
+                    <div className={"w-100 overflow-auto bg-glass   mb-8 rounded-3xl px-4 bg-[#164370]"}>
 
                         <div className='h-16 w-100 flex justify-between items-center '>
                             <div className='flex flex-row justify-center items-center w-full'>
@@ -104,7 +104,7 @@ const ClassDashboard = () => {
                             <div className='h-80 w-full mt-2 flex-wrap flex justify-between'>
                                 <div onClick={() => {
                                     navigate(`/allAssignment/${classId}`)
-                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer hover:h-44'>
+                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer '>
                                     <div className='text-lg'>
                                         <MdIcon.MdAssignment className={"h-20 w-20 text-fontColor"} />
                                     </div>
@@ -115,7 +115,7 @@ const ClassDashboard = () => {
 
                                 <div onClick={() => {
                                     navigate(`/allQuizes/${classId}`)
-                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer hover:h-44'>
+                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer  '>
                                     <div className='text-lg'>
                                         <MdIcon.MdQuiz className={"h-20 w-20 text-fontColor"} />
                                     </div>
@@ -126,7 +126,7 @@ const ClassDashboard = () => {
 
                                 <div onClick={() => {
                                     navigate(`/AllStudentByClass/${classId}`)
-                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer hover:h-44'>
+                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer  '>
                                     <div className='text-lg'>
                                         <HiIcon.HiUserGroup className={"h-20 w-20 text-fontColor"} />
                                     </div>
@@ -137,12 +137,34 @@ const ClassDashboard = () => {
 
                                 <div onClick={() => {
                                     navigate(`/allNotes/${classId}`)
-                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer hover:h-44 mt-4'>
+                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer   mt-4'>
                                     <div className='text-lg'>
                                         <GiIcon.GiNewspaper className={"h-20 w-20 text-fontColor"} />
                                     </div>
 
                                     <h1 className='text-fontColor font-medium ' >Class Notes</h1>
+
+                                </div>
+
+                                <div onClick={() => {
+                                    navigate(`/AllPastPapers/${classId}`)
+                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer   mt-4'>
+                                    <div className='text-lg'>
+                                        <BsIcon.BsFillFileEarmarkTextFill className={"h-20 w-20 text-fontColor"} />
+                                    </div>
+
+                                    <h1 className='text-fontColor font-medium ' >Past Papers</h1>
+
+                                </div>
+
+                                <div onClick={() => {
+                                    navigate(`/allNotes/${classId}`)
+                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer   mt-4'>
+                                    <div className='text-lg'>
+                                        <BsIcon.BsBell className={"h-20 w-20 text-fontColor"} />
+                                    </div>
+
+                                    <h1 className='text-fontColor font-medium ' >Announcements</h1>
 
                                 </div>
 

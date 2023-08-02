@@ -168,9 +168,9 @@ const AllStudentByClass = () => {
                                     </div>
 
                                 </div>
-                                <div onClick={() => { setCreate(true) }} className='cursor-pointer text-[2.8rem] text-white ml-4'>
+                                {/* <div onClick={() => { setCreate(true) }} className='cursor-pointer text-[2.8rem] text-white ml-4'>
                                     <BiIcon.IoMdAddCircle />
-                                </div>
+                                </div> */}
                             </div>
 
                         </div>
