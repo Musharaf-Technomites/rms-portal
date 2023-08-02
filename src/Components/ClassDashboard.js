@@ -11,6 +11,7 @@ import * as DataAction from "../Store/DataAction"
 import * as BiIcon from "react-icons/io"
 import * as MdIcon from "react-icons/md"
 import * as HiIcon from "react-icons/hi"
+import * as GiIcon from "react-icons/gi"
 import CreateAssignmentModal from './CreateAssignmentModal'
 
 
@@ -131,6 +132,17 @@ const ClassDashboard = () => {
                                     </div>
 
                                     <h1 className='text-fontColor font-medium ' >Students Attandance</h1>
+
+                                </div>
+
+                                <div onClick={() => {
+                                    navigate(`/allNotes/${classId}`)
+                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer hover:h-44 mt-4'>
+                                    <div className='text-lg'>
+                                        <GiIcon.GiNewspaper className={"h-20 w-20 text-fontColor"} />
+                                    </div>
+
+                                    <h1 className='text-fontColor font-medium ' >Class Notes</h1>
 
                                 </div>
 
