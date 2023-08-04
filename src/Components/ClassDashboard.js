@@ -158,7 +158,7 @@ const ClassDashboard = () => {
                                 </div>
 
                                 <div onClick={() => {
-                                    navigate(`/allNotes/${classId}`)
+                                    navigate(`/AllAccouncements/${classId}`)
                                 }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer   mt-4'>
                                     <div className='text-lg'>
                                         <BsIcon.BsBell className={"h-20 w-20 text-fontColor"} />
