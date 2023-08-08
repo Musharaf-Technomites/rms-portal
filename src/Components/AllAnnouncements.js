@@ -12,7 +12,7 @@ import * as BiIcon from "react-icons/io"
 import * as AiIcon from "react-icons/ai"
 import CreateQuizModal from './CreateQuizModal'
 import CreateAnnouncementModal from './CreateAnnouncementModal'
-
+import Switch from "react-switch";
 const AllAnnouncements = () => {
     const allStudent = useSelector((state) => state.date.allStudent)
     const { classId } = useParams();
@@ -65,6 +65,38 @@ const AllAnnouncements = () => {
     }, [])
 
 
+
+    const ActiveAnnouncement = (id) => {
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "classId": classId,
+            "_id": id
+        });
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(`${BaseUrl}api/activeAnnouncement`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+                if (result.status === 200) {
+                    setTimeout(() => {
+                        GetAllQuiz()
+                    }, 1000)
+
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
     return (
         <div className="w-full h-screen bg-back bg-cover flex items-center">
             <div className="w-full h-screen bg-opacityBgColor flex">
@@ -111,7 +143,15 @@ const AllAnnouncements = () => {
 
                                                     <h1 className=' text-[0.9rem] text-black] mt-2' >{`Last Show Date: ${moment(i?.lastDatetoShow).format("DD-MM-YY")}`}</h1>
                                                     <h1 className=' text-[1rem] text-black] mt-2 font-bold' >{`Description`}</h1>
-                                                    <h1 className=' text-[0.8rem] text-black] mt-2 w-full' >{`${i?.description}`}</h1>
+                                                    <div className='flex justify-between'>
+                                                        <h1 className=' text-[0.8rem] text-black] mt-2 w-full' >{`${i?.description}`}</h1>
+                                                        <div>
+                                                            <Switch checked={i?.active} onChange={() => {
+                                                                ActiveAnnouncement(i._id)
+                                                            }} />
+                                                        </div>
+                                                    </div>
+
                                                 </div>
 
 
