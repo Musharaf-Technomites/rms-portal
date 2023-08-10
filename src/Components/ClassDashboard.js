@@ -101,7 +101,7 @@ const ClassDashboard = () => {
                                 <img className='h-[100%] w-full rounded-lg' src={classImage} />
                             </div>
 
-                            <div className='h-80 w-full mt-2 flex-wrap flex justify-between'>
+                            <div className=' w-full mt-2 flex-wrap flex justify-between '>
                                 <div onClick={() => {
                                     navigate(`/allAssignment/${classId}`)
                                 }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer '>
@@ -165,6 +165,18 @@ const ClassDashboard = () => {
                                     </div>
 
                                     <h1 className='text-fontColor font-medium ' >Announcements</h1>
+
+                                </div>
+
+
+                                <div onClick={() => {
+                                    navigate(`/ALlRecordedLactures/${classId}`)
+                                }} className='h-40 w-[32%] bg-[#e0e1e2] rounded-lg flex justify-center items-center flex-col hover:drop-shadow-lg cursor-pointer   mt-4'>
+                                    <div className='text-lg'>
+                                        <BsIcon.BsCameraVideoFill className={"h-20 w-20 text-fontColor"} />
+                                    </div>
+
+                                    <h1 className='text-fontColor font-medium ' >Recorded Lectures</h1>
 
                                 </div>
 
