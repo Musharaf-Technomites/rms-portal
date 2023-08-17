@@ -30,11 +30,11 @@ export const SideBarListData = [
         Icon: <BsIcon.BsCardList className="h-5 w-5" />,
     },
 
-    {
-        id: 5,
-        Name: "Media",
-        Icon: <MdIcon.MdOutlinePermMedia className="h-6 w-6" />,
-    },
+    // {
+    //     id: 5,
+    //     Name: "Media",
+    //     Icon: <MdIcon.MdOutlinePermMedia className="h-6 w-6" />,
+    // },
 
     {
         id: 4,
