@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import * as BiIcon from "react-icons/bi"
 import UserProfile from "../Components/UserProfile"
 import SideBarData from "../Components/SideBarData"
+import { useSelector } from 'react-redux'
 const SideBar = () => {
     const [toggle, setToggle] = useState(false)
+    const ProfileData = useSelector((state) => state.auth.userSuccessData)
+
     return (
         <div className={`${toggle ? ":w-[5.8rem]" : ""} sidebar-container`}>
             <UserProfile toggle={toggle} />

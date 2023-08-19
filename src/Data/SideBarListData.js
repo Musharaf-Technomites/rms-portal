@@ -2,7 +2,8 @@
 import * as BiIcon from "react-icons/bi"
 import * as BsIcon from "react-icons/bs"
 import * as TbIcon from "react-icons/tb"
-import * as MdIcon from "react-icons/md"
+import * as SiIcon from "react-icons/si"
+
 
 export const SideBarListData = [
     {
@@ -28,6 +29,12 @@ export const SideBarListData = [
         id: 3,
         Name: "School",
         Icon: <BsIcon.BsCardList className="h-5 w-5" />,
+    },
+
+    {
+        id: 7,
+        Name: "Start Class",
+        Icon: <SiIcon.SiGoogleclassroom className="h-5 w-5" />,
     },
 
     // {
