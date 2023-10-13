@@ -6,6 +6,7 @@ import { Provider } from "react-redux"
 import ReduxThunk from 'redux-thunk';
 import AuthReducer from "./Store/AuthReducer"
 import DataReducer from "./Store/DataReducer"
+
 export default function App() {
   const rootReducer = combineReducers({
     auth: AuthReducer,
