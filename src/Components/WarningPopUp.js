@@ -10,12 +10,12 @@ const WarningPopUp = (props) => {
                 <div className='flex flex-col justify-center p-2 items-center'>
 
                     <div className='flex ustify-center items-center'>
-                        <h4 className=' text-red-500 font-bold'>DELETE STUDENT</h4>
+                        <h4 className=' text-red-500 font-bold'>{props.title ? props.title : "DELETE STUDENT"}</h4>
                     </div>
 
                     <div className='text-center'>
                         <Paragraph
-                            text={`Are you sure you want to delete ${props.Name} account?`}
+                            text={props.message ? props.message : `Are you sure you want to delete ${props.Name} account?`}
                         />
 
                         <div className='mt-2 flex justify-between'>

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import SideBar from './SideBar'
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom"
+import { FaEdit } from "react-icons/fa";
 import { BaseUrl } from '../Constants/BaseUrl'
-
+import { MdDelete } from "react-icons/md";
+import WarningPopUp from "../Components/WarningPopUp"
 import moment from 'moment'
 import { useDispatch, useSelector } from "react-redux"
 import CreateClassModal from './CreateClassModal'
@@ -13,17 +15,22 @@ import * as AiIcon from "react-icons/ai"
 import CreateAssignmentModal from './CreateAssignmentModal'
 
 
+
 const AllAsssignment = () => {
     const allStudent = useSelector((state) => state.date.allStudent)
     const { classId } = useParams();
 
-    const [allSchools, setAllSchols] = useState([])
-    const [SchoolDetails, setSchoolDetails] = useState()
+    const [loading, setLoading] = useState(false)
+    const [warning, setWarning] = useState(false)
     const dispatch = useDispatch()
 
 
     const [search, setSearch] = useState("")
     const [create, setCreate] = useState(false)
+    const [isCreate, setIsCreate] = useState(false)
+    const [selectedItem, setSelectedItem] = useState()
+
+
     const navigate = useNavigate()
 
     // const GetAllStudent = () => {
@@ -63,6 +70,37 @@ const AllAsssignment = () => {
     }, [])
 
 
+    const DeleteRecord = () => {
+        setLoading(true)
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "AssignmentId": selectedItem._id
+        });
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(`${BaseUrl}api/assignment/deleteAssignmentRecord`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === 200) {
+                    setLoading(false)
+                    setWarning(false)
+                    GetAllAssignment()
+                } else {
+                    setLoading(false)
+                    GetAllAssignment()
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
     return (
         <div className="w-full h-screen bg-back bg-cover flex items-center">
             <div className="w-full h-screen bg-opacityBgColor flex">
@@ -85,7 +123,10 @@ const AllAsssignment = () => {
                                     </div>
 
                                 </div>
-                                <div onClick={() => { setCreate(true) }} className='cursor-pointer text-[2.8rem] text-white ml-4'>
+                                <div onClick={() => {
+                                    setIsCreate(true)
+                                    setCreate(true)
+                                }} className='cursor-pointer text-[2.8rem] text-white ml-4'>
                                     <BiIcon.IoMdAddCircle />
                                 </div>
                             </div>
@@ -96,9 +137,7 @@ const AllAsssignment = () => {
                                 {
                                     allAssignment.map((i) => {
                                         return (
-                                            <div onClick={() => {
-                                                navigate(`/assignmentDetails/${i._id}`)
-                                            }} className="min-h-40 bg-[#eef3f5] w-[49%] mt-4 rounded-md drop-shadow-md flex p-3">
+                                            <div className="min-h-40 bg-[#eef3f5] w-[49%] mt-4 rounded-md drop-shadow-md flex p-3">
                                                 <div>
                                                     <div className='flex justify-between w-full'>
                                                         <h1 className=' text-[1.5rem] text-[#164370] font-bold' >{i?.AssignmentName}</h1>
@@ -108,12 +147,45 @@ const AllAsssignment = () => {
                                                         </div>
                                                         </a>
                                                     </div>
+                                                    <div
+                                                        className='cursor-pointer'
+                                                        onClick={() => {
+                                                            navigate(`/assignmentDetails/${i._id}`)
+                                                        }}
+                                                    >
+
+                                                        <h1 className=' text-[0.9rem] text-black] mt-2' >{`Total Marks: ${i.TotalMarks}`}</h1>
+                                                        <h1 className=' text-[0.9rem] text-black] mt-2' >{`Last Date: ${moment(i?.LastDate).format("DD-MM-YY")}`}</h1>
+                                                        <h1 className=' text-[1rem] text-black] mt-2 font-bold' >{`Description`}</h1>
+                                                        <h1 className=' text-[0.8rem] text-black] mt-2 w-full' >{`${i?.AssignmentDescription}`}</h1>
+                                                    </div>
+
+                                                    <div className='mt-2 flex'>
+
+                                                        <div
+                                                            onClick={() => {
+                                                                setSelectedItem(i)
+                                                                setWarning(true)
+
+                                                            }}
+                                                            className='text-3xl text-red-500 cursor-pointer '>
+                                                            <MdDelete />
+
+                                                        </div>
+
+                                                        <div
+                                                            onClick={() => {
+                                                                setSelectedItem(i)
+                                                                setIsCreate(false)
+                                                                setCreate(true)
+                                                            }}
+                                                            className='text-3xl text-fontColor cursor-pointer ml-3'>
+                                                            <FaEdit />
+                                                        </div>
 
 
-                                                    <h1 className=' text-[0.9rem] text-black] mt-2' >{`Total Marks: ${i.TotalMarks}`}</h1>
-                                                    <h1 className=' text-[0.9rem] text-black] mt-2' >{`Last Date: ${moment(i?.LastDate).format("DD-MM-YY")}`}</h1>
-                                                    <h1 className=' text-[1rem] text-black] mt-2 font-bold' >{`Description`}</h1>
-                                                    <h1 className=' text-[0.8rem] text-black] mt-2 w-full' >{`${i?.AssignmentDescription}`}</h1>
+
+                                                    </div>
                                                 </div>
 
 
@@ -128,14 +200,31 @@ const AllAsssignment = () => {
                             </div>
                         </div>
                         {
-                            create && <CreateAssignmentModal classId={classId} onCancel={() => {
-                                GetAllAssignment()
-                                setCreate(false)
-                            }} />
+                            create && <CreateAssignmentModal
+                                date={selectedItem}
+                                IsCreate={isCreate}
+                                classId={classId} onCancel={() => {
+                                    GetAllAssignment()
+                                    setCreate(false)
+                                }} />
                         }
                     </div>
                 </div>
             </div>
+            {
+                warning && <WarningPopUp
+                    loading={loading}
+                    title="DELETE ASSIGNMENT"
+                    message="Are you sure you want to delete this record?"
+                    onYesClick={() => {
+                        DeleteRecord()
+                    }}
+                    onNoClick={() => {
+                        setWarning(false)
+                    }}
+                />
+            }
+
         </div>
     )
 }
