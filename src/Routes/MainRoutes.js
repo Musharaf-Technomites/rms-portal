@@ -22,6 +22,8 @@ import AllPastPapers from "../Components/AllPastPapers"
 import AllAnnouncements from "../Components/AllAnnouncements"
 import ALlRecordedLactures from "../Components/ALlRecordedLactures"
 
+import DwfMapScreen from "../Components/DwfMapScreen"
+
 const MainRoutes = () => {
     return (
 
@@ -43,6 +45,7 @@ const MainRoutes = () => {
                 <Route path="/AllPastPapers/:classId" element={<ProtectedRoute Component={AllPastPapers} />} />
                 <Route path="/AllAccouncements/:classId" element={<ProtectedRoute Component={AllAnnouncements} />} />
                 <Route path="/ALlRecordedLactures/:classId" element={<ProtectedRoute Component={ALlRecordedLactures} />} />
+                <Route path="/Dwf/GoogleMapTracking/:sessionId/:token" element={<DwfMapScreen />} />
             </Routes>
         </BrowserRouter>
     )

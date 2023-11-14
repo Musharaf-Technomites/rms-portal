@@ -6,6 +6,7 @@ import Switch from "react-switch";
 import { BaseUrl } from '../Constants/BaseUrl';
 import * as AiIcon from "react-icons/ai"
 import EditStudentPopUp from './EditStudentPopUp';
+import WarningPopUp from './WarningPopUp';
 const AllStudents = () => {
     const [allStudents, setAllStudents] = useState()
     const [search, setSearch] = useState("")
@@ -16,6 +17,8 @@ const AllStudents = () => {
     const [update, setUpdate] = useState(false)
 
     const [loading, setLoading] = useState(false);
+
+    const [warningPopUp, setWarningPopUp] = useState(false)
 
     const [formsFields, setFormFields] = useState({
         email: "",
@@ -51,6 +54,7 @@ const AllStudents = () => {
     }, [])
 
     const DeleteStudent = (id) => {
+        setLoading(true)
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -69,7 +73,12 @@ const AllStudents = () => {
             .then(response => response.json())
             .then(result => {
                 if (result.status === 200) {
+                    setLoading(false)
+                    setSelectedStudent()
+                    setWarningPopUp(false)
                     GetAllStudents()
+                } else {
+                    setLoading(false)
                 }
             })
             .catch(error => console.log('error', error));
@@ -202,7 +211,9 @@ const AllStudents = () => {
                                             if (fullName.includes(search)) {
                                                 return <tr className='m-4'>
                                                     <td onClick={() => {
-                                                        DeleteStudent(i._id)
+                                                        setSelectedStudent(i)
+                                                        setWarningPopUp(true)
+
                                                     }} className='h-[50px] w-[30px] text-[1.7rem] text-red-500 cursor-pointer'>
                                                         <AiIcon.AiTwotoneDelete className={"h-6 w-6 "} />
                                                     </td>
@@ -257,7 +268,7 @@ const AllStudents = () => {
                     lastNameValue={formsFields.lastName}
                     emailValue={formsFields.email}
                     passwordValue={formsFields.password}
-                    
+
 
 
 
@@ -313,6 +324,17 @@ const AllStudents = () => {
                         GetAllStudents()
                         setCreate(false)
                     }} />
+            }
+            {
+                warningPopUp && <WarningPopUp
+                    loading={loading}
+                    Name={`${SelectedStudent?.firstName} ${SelectedStudent?.lastName}`}
+                    onNoClick={() => setWarningPopUp(false)}
+                    onYesClick={() => {
+                        DeleteStudent(SelectedStudent._id)
+                    }}
+
+                />
             }
 
         </div >

@@ -10,7 +10,8 @@ module.exports = {
         brown: "rgba(30,30,17)",
         fontColor:"#104871",
         primary:"#104871",
-        opacityBgColor:"#00000099"
+        opacityBgColor:"#00000099",
+        yellow:"#FFCF01"
       },
       backgroundImage:{
         back:"url(./Assets/bgResImage.jpg)",
