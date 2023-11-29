@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SideBar from './SideBar'
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom"
 import { BaseUrl } from '../Constants/BaseUrl'
-
+import { FaEdit } from "react-icons/fa";
 import moment from 'moment'
 import { useDispatch, useSelector } from "react-redux"
 import CreateClassModal from './CreateClassModal'
@@ -11,13 +11,16 @@ import * as DataAction from "../Store/DataAction"
 import * as BiIcon from "react-icons/io"
 import * as AiIcon from "react-icons/ai"
 import CreateQuizModal from './CreateQuizModal'
-
+import { MdDelete } from "react-icons/md";
+import WarningPopUp from "../Components/WarningPopUp"
 const AllQuizes = () => {
     const allStudent = useSelector((state) => state.date.allStudent)
     const { classId } = useParams();
 
     const [allSchools, setAllSchols] = useState([])
-    const [SchoolDetails, setSchoolDetails] = useState()
+    const [setlectedQuiz, setSelectedQuiz] = useState()
+    const [warningPopUp, setWarningPopUp] = useState(false)
+    const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
 
 
@@ -61,6 +64,35 @@ const AllQuizes = () => {
         GetAllQuiz()
     }, [])
 
+    const DeleteHandler = () => {
+        setLoading(true)
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "QuizId": setlectedQuiz._id
+        });
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(`${BaseUrl}api/quiz/quizDelete`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === 200) {
+                    GetAllQuiz()
+                    setLoading(false)
+                    setWarningPopUp(false)
+
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
 
     return (
         <div className="w-full h-screen bg-back bg-cover flex items-center">
@@ -95,11 +127,11 @@ const AllQuizes = () => {
                                 {
                                     allAssignment.map((i) => {
                                         return (
-                                            <div onClick={() => {
-                                                navigate(`/quizDetails/${i._id}`)
-                                            }} className="min-h-40 bg-[#eef3f5] w-[49%] mt-4 rounded-md drop-shadow-md flex p-3">
+                                            <div className="min-h-40 bg-[#eef3f5] w-[49%] mt-4 rounded-md drop-shadow-md flex p-3">
                                                 <div>
-                                                    <div className='flex justify-between w-full'>
+                                                    <div onClick={() => {
+                                                        navigate(`/quizDetails/${i._id}`)
+                                                    }} className='flex justify-between w-full cursor-pointer'>
                                                         <h1 className=' text-[1.5rem] text-[#164370] font-bold' >{i?.QuizName}</h1>
                                                         <a href={i?.PdfFile} target='_blank'> <div className='text-4xl cursor-pointer item' >
 
@@ -113,6 +145,30 @@ const AllQuizes = () => {
                                                     <h1 className=' text-[0.9rem] text-black] mt-2' >{`Last Date: ${moment(i?.LastDate).format("DD-MM-YY")}`}</h1>
                                                     <h1 className=' text-[1rem] text-black] mt-2 font-bold' >{`Description`}</h1>
                                                     <h1 className=' text-[0.8rem] text-black] mt-2 w-full' >{`${i?.QuizDescription}`}</h1>
+
+                                                    <div className='mt-2 flex'>
+
+                                                        <div
+                                                            onClick={() => {
+                                                                setSelectedQuiz(i)
+                                                                setWarningPopUp(true)
+                                                            }}
+                                                            className='text-3xl text-red-500 cursor-pointer '>
+                                                            <MdDelete />
+
+                                                        </div>
+
+                                                        <div
+                                                            onClick={() => {
+
+                                                            }}
+                                                            className='text-3xl text-fontColor cursor-pointer ml-3'>
+                                                            <FaEdit />
+                                                        </div>
+
+
+
+                                                    </div>
                                                 </div>
 
 
@@ -135,6 +191,16 @@ const AllQuizes = () => {
                     </div>
                 </div>
             </div>
+            {
+                warningPopUp && <WarningPopUp
+                    Name={setlectedQuiz?.QuizName}
+                    onYesClick={DeleteHandler}
+                    loading={loading}
+                    onNoClick={() => setWarningPopUp(false)}
+                    title="Delete Quiz"
+                />
+            }
+
         </div>
     )
 }
