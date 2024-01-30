@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SideBar from './SideBar'
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom"
 import { BaseUrl } from '../Constants/BaseUrl'
-
+import WarningPopUp from "../Components/WarningPopUp"
 import moment from 'moment'
 import { useDispatch, useSelector } from "react-redux"
 import CreateClassModal from './CreateClassModal'
@@ -10,8 +10,10 @@ import { useNavigate } from "react-router-dom"
 import * as DataAction from "../Store/DataAction"
 import * as BiIcon from "react-icons/io"
 import * as AiIcon from "react-icons/ai"
-import CreateQuizModal from './CreateQuizModal'
 import CreateLacturePopup from './CreateLacturePopup'
+import { AiFillFileExcel } from "react-icons/ai";
+import { MdDelete, MdEdit } from "react-icons/md";
+import Switch from "react-switch";
 
 const ALlRecordedLactures = () => {
     const allStudent = useSelector((state) => state.date.allStudent)
@@ -19,6 +21,11 @@ const ALlRecordedLactures = () => {
 
     const [allSchools, setAllSchols] = useState([])
     const [SchoolDetails, setSchoolDetails] = useState()
+
+    const [selectedExcelFile, setSelectedExcelFile] = useState()
+    const [excelWarningPopUp, setExcelWarningPopUp] = useState(false)
+
+    const [deletePopUp, setDeletePopUp] = useState(false)
     const dispatch = useDispatch()
 
 
@@ -38,7 +45,7 @@ const ALlRecordedLactures = () => {
             redirect: 'follow'
         };
 
-        fetch(`${BaseUrl}api/lacture/getAll`, requestOptions)
+        fetch(`${BaseUrl}api/lacture/getAllLacturePortal`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === "Success") {
@@ -63,6 +70,120 @@ const ALlRecordedLactures = () => {
     }, [])
 
 
+
+
+
+    const handleFileImport = () => {
+        // Create an input element dynamically
+        const input = document.createElement('input');
+        input.type = 'file';
+
+        // Trigger click on the input element
+        input.click();
+
+        // Handle file selection
+        input.addEventListener('change', (e) => {
+            const selectedFile = e.target.files[0];
+            setExcelWarningPopUp(true)
+            // Perform operations with the selected file, for example:
+            console.log('Selected File:', selectedFile);
+            setSelectedExcelFile(selectedFile)
+            // You can add your logic to process the file here
+        });
+    };
+
+    const [Loading, setLoading] = useState(false)
+
+    const uploadFileToServer = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('file', selectedExcelFile);
+            formData.append('ClassId', classId);
+
+            const response = await fetch(`${BaseUrl}api/lacture/uploadLacExcel`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('File uploaded successfully:', data);
+                setSelectedExcelFile()
+                setExcelWarningPopUp(false)
+                GetAllLacture()
+                alert("Record Uploaded Successfully")
+                // You can handle the response data here
+            } else {
+                throw new Error('File upload failed');
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            // Handle error, show message to the user, etc.
+        }
+    };
+
+
+
+    const [selectedRecord, setSelectedRecord] = useState()
+
+    const DeleteRecord = () => {
+        setLoading(true)
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "LactureId": selectedRecord?._id
+        });
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(`${BaseUrl}api/lacture/deleteLacturetRecord`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === 200) {
+                    setDeletePopUp(false)
+                    setLoading(false)
+                    GetAllLacture()
+
+                } else {
+                    setLoading(true)
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
+
+    const LactureAllowOrDissAllow = (id, value) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "LactureId": id,
+            "isAllow": value
+        });
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(`${BaseUrl}api/lacture/lactureUpdate`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === 200) {
+                    GetAllLacture()
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
+
     return (
         <div className="w-full h-screen bg-back bg-cover flex items-center">
             <div className="w-full h-screen bg-opacityBgColor flex">
@@ -74,7 +195,7 @@ const ALlRecordedLactures = () => {
 
                         <div className='h-16 w-100 flex justify-between items-center '>
                             <div className='flex flex-row justify-center items-center'>
-                                <h4 className='text-white font-bold'>{"All Quizes"}</h4>
+                                <h4 className='text-white font-bold'>{"All Recorded Lacture"}</h4>
 
                             </div>
                             <div className='flex flex-row justify-center items-center'>
@@ -87,6 +208,10 @@ const ALlRecordedLactures = () => {
                                 </div>
                                 <div onClick={() => { setCreate(true) }} className='cursor-pointer text-[2.8rem] text-white ml-4'>
                                     <BiIcon.IoMdAddCircle />
+                                </div>
+
+                                <div onClick={handleFileImport} className='cursor-pointer text-[2.8rem] text-[#19b915] ml-4'>
+                                    <AiFillFileExcel />
                                 </div>
                             </div>
 
@@ -102,11 +227,7 @@ const ALlRecordedLactures = () => {
                                                 <div>
                                                     <div className='flex justify-between w-full'>
                                                         <h1 className=' text-[1.5rem] text-[#164370] font-bold' >{i?.Subject}</h1>
-                                                        <a href={i?.PdfFile} target='_blank'> <div className='text-4xl cursor-pointer item' >
 
-                                                            <AiIcon.AiFillFilePdf />
-                                                        </div>
-                                                        </a>
                                                     </div>
 
 
@@ -114,6 +235,23 @@ const ALlRecordedLactures = () => {
 
                                                     <h1 className=' text-[1rem] text-black] mt-2 font-bold' >{`Description`}</h1>
                                                     <h1 className=' text-[0.8rem] text-black] mt-2 w-full' >{`${i?.Description}`}</h1>
+
+                                                    <div className='text-red-500 p-2 text-2xl w-full flex justify-between items-center'>
+
+                                                        <div>
+                                                            <Switch checked={i?.isAllow} onChange={() => {
+                                                                LactureAllowOrDissAllow(i._id, !i.isAllow)
+                                                            }} />
+                                                        </div>
+
+                                                        <MdDelete
+                                                            onClick={() => {
+                                                                setSelectedRecord(i)
+                                                                setDeletePopUp(true)
+                                                            }}
+                                                        />
+
+                                                    </div>
                                                 </div>
 
 
@@ -122,6 +260,23 @@ const ALlRecordedLactures = () => {
                                     })
                                 }
 
+                                {
+                                    excelWarningPopUp && <WarningPopUp
+                                        onNoClick={() => setExcelWarningPopUp(false)}
+                                        onYesClick={uploadFileToServer}
+                                        message={`Are you sure you want to upload data from ${selectedExcelFile?.name}`}
+                                    />
+                                }
+
+
+                                {
+                                    deletePopUp && <WarningPopUp
+                                        loading={Loading}
+                                        onNoClick={() => setDeletePopUp(false)}
+                                        onYesClick={DeleteRecord}
+                                        message={`Are you sure you want to delete this record`}
+                                    />
+                                }
 
 
 

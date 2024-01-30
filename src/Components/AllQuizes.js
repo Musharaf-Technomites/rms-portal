@@ -160,7 +160,8 @@ const AllQuizes = () => {
 
                                                         <div
                                                             onClick={() => {
-
+                                                                setSelectedQuiz(i)
+                                                                setCreate(true)
                                                             }}
                                                             className='text-3xl text-fontColor cursor-pointer ml-3'>
                                                             <FaEdit />
@@ -183,10 +184,14 @@ const AllQuizes = () => {
                             </div>
                         </div>
                         {
-                            create && <CreateQuizModal classId={classId} onCancel={() => {
-                                GetAllQuiz()
-                                setCreate(false)
-                            }} />
+                            create && <CreateQuizModal
+                                selectedData={setlectedQuiz}
+                                classId={classId}
+                                onCancel={() => {
+                                    setSelectedQuiz()
+                                    GetAllQuiz()
+                                    setCreate(false)
+                                }} />
                         }
                     </div>
                 </div>

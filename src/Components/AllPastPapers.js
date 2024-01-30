@@ -10,9 +10,11 @@ import { useNavigate } from "react-router-dom"
 import * as DataAction from "../Store/DataAction"
 import * as BiIcon from "react-icons/io"
 import * as AiIcon from "react-icons/ai"
-
+import { AiFillFileExcel } from "react-icons/ai";
 import CreateNotesModal from './CreateNotesModal'
 import CreatePastPaperModal from './CreatePastPaperModal'
+import WarningPopUp from './WarningPopUp'
+import { MdDelete } from "react-icons/md";
 const AllPastPapers = () => {
     const allStudent = useSelector((state) => state.date.allStudent)
     const { classId } = useParams();
@@ -62,6 +64,81 @@ const AllPastPapers = () => {
         GetAllPastPaper()
     }, [])
 
+    const [selectedExcelFile, setSelectedExcelFile] = useState()
+    const [excelWarningPopUp, setExcelWarningPopUp] = useState(false)
+
+    const handleFileImport = () => {
+        // Create an input element dynamically
+        const input = document.createElement('input');
+        input.type = 'file';
+
+        // Trigger click on the input element
+        input.click();
+
+        // Handle file selection
+        input.addEventListener('change', (e) => {
+            const selectedFile = e.target.files[0];
+            setExcelWarningPopUp(true)
+            // Perform operations with the selected file, for example:
+            console.log('Selected File:', selectedFile);
+            setSelectedExcelFile(selectedFile)
+            // You can add your logic to process the file here
+        });
+    };
+
+    const uploadFileToServer = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('file', selectedExcelFile);
+            formData.append('ClassId', classId);
+
+            const response = await fetch(`${BaseUrl}api/pastPaper/uploadLacExcel`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('File uploaded successfully:', data);
+                setSelectedExcelFile()
+                setExcelWarningPopUp(false)
+                GetAllPastPaper()
+                alert("Record Uploaded Successfully")
+                // You can handle the response data here
+            } else {
+                throw new Error('File upload failed');
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            // Handle error, show message to the user, etc.
+        }
+    };
+
+    const DeleterecordHandler = (id) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "PaperId": id
+        });
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(`${BaseUrl}api/pastPaper/delete`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === 200) {
+                    GetAllPastPaper()
+                    alert("Record delete successfully")
+                }
+            })
+            .catch(error => console.log('error', error));
+    }
 
     return (
         <div className="w-full h-screen bg-back bg-cover flex items-center">
@@ -88,6 +165,11 @@ const AllPastPapers = () => {
                                 <div onClick={() => { setCreate(true) }} className='cursor-pointer text-[2.8rem] text-white ml-4'>
                                     <BiIcon.IoMdAddCircle />
                                 </div>
+
+
+                                <div onClick={handleFileImport} className='cursor-pointer text-[2.8rem] text-[#19b915] ml-4'>
+                                    <AiFillFileExcel />
+                                </div>
                             </div>
 
                         </div>
@@ -108,10 +190,22 @@ const AllPastPapers = () => {
                                                         </div>
                                                         </a>
                                                     </div>
+                                                    <div className='w-full justify-between items-center flex '>
+                                                        <div>
+                                                            <h1 className=' text-[1rem] text-black] mt-2 font-bold' >{`Description`}</h1>
+                                                            <h1 className=' text-[0.8rem] text-black] mt-2 w-full' >{`${i?.PaperDescription}`}</h1>
+                                                        </div>
+                                                        <div className='text-red-500 text-2xl'>
+                                                            <MdDelete
+                                                                onClick={() => {
+                                                                    DeleterecordHandler(i._id)
+                                                                }}
+                                                            />
+                                                        </div>
 
-                                                    <h1 className=' text-[1rem] text-black] mt-2 font-bold' >{`Description`}</h1>
-                                                    <h1 className=' text-[0.8rem] text-black] mt-2 w-full' >{`${i?.PaperDescription}`}</h1>
+                                                    </div>
                                                 </div>
+
 
 
                                             </div>
@@ -124,6 +218,14 @@ const AllPastPapers = () => {
 
                             </div>
                         </div>
+                        {
+                            excelWarningPopUp && <WarningPopUp
+                                title={"PAST PAPER UPLOAD"}
+                                onNoClick={() => setExcelWarningPopUp(false)}
+                                onYesClick={uploadFileToServer}
+                                message={`Are you sure you want to upload data from ${selectedExcelFile?.name}`}
+                            />
+                        }
                         {
                             create && <CreatePastPaperModal classId={classId} onCancel={() => {
                                 GetAllPastPaper()
