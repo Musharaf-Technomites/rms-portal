@@ -79,7 +79,7 @@ const Dashboard = (props) => {
                             <div className='flex justify-between w-[37%] h-full '>
                                 <img
                                     className='h-full w-full rounded-2xl cursor-pointer'
-                                    src={require("../Assets/Portrate.jpeg")}
+                                    src={require("../Assets/Portrate.png")}
                                 />
                             </div>
 
